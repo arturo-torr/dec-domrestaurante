@@ -20,6 +20,8 @@ class RestaurantsManagerController {
     this[VIEW] = view;
 
     this.onLoad();
+    this.onInit();
+    this[VIEW].bindInit(this.handleInit);
   }
 
   [LOAD_MANAGER_OBJECTS]() {
@@ -28,14 +30,19 @@ class RestaurantsManagerController {
       "Primeros",
       RestaurantsManager.Category
     );
+    cat1.description = "Platos seleccionados como primeros";
+
     const cat2 = this[MODEL].createCategory(
       "Segundos",
       RestaurantsManager.Category
     );
+    cat2.description = "Platos seleccionados como segundos";
+
     const cat3 = this[MODEL].createCategory(
       "Postres",
       RestaurantsManager.Category
     );
+    cat3.description = "Platos seleccionados como postres";
 
     // Creación de platos
     let dish1 = this[MODEL].createDish(
@@ -234,6 +241,13 @@ class RestaurantsManagerController {
 
   onLoad = () => {
     this[LOAD_MANAGER_OBJECTS]();
+  };
+
+  onInit = () => {
+    this[VIEW].showCategories(this[MODEL].categories);
+  };
+  handleInit = () => {
+    this.onInit();
   };
 }
 
