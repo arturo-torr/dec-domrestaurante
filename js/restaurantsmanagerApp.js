@@ -1,6 +1,6 @@
-import RestaurantsManager from "./restaurantsmanager";
-import RestaurantsManagerController from "./restaurantsManagerController";
-import RestaurantsManagerView from "./restaurantsManagerView";
+import RestaurantsManager from "./restaurantsmanager.js";
+import RestaurantsManagerController from "./restaurantsmanagerController.js";
+import RestaurantsManagerView from "./restaurantsmanagerView.js";
 
 const RestaurantManagerApp = new RestaurantsManagerController(
   RestaurantsManager.getInstance(),
