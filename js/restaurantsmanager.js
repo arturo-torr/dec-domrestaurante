@@ -782,6 +782,10 @@ const RestaurantsManager = (function () {
       }
     }
 
+    getDishesLength() {
+      return this.#dishes.length;
+    }
+
     // Generador que recibe una categoría por parámetro y una función de ordenación por parámetro
     // Devolverá un iterador con los platos de esa categoría
     *getDishesInCategory(category, order = null) {
