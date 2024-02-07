@@ -146,6 +146,50 @@ class RestaurantsManagerView {
     div.append(container);
     this.menu.append(div);
   }
+
+  listDishes(dishes, title) {
+    this.centralzone.replaceChildren();
+    const container = document.createElement("div");
+    container.id = "category-list";
+    container.classList.add("container", "my-3");
+    container.insertAdjacentHTML("beforeend", '<div class="row"> </div>');
+    for (const dish of dishes) {
+      const div = document.createElement("div");
+      div.classList.add("col-md-4");
+      div.insertAdjacentHTML(
+        "beforeend",
+        `<figure class="card cardproduct-grid card-lg bg__black">
+         <a data-name="${dish.dish.name}" href="#singleproduct" class="img-wrap no__decoration text-center"><img class="img-fluid"
+		src="${dish.dish.image}">
+    <p class="my-3">${dish.dish.name}</p></a></figure>`
+      );
+      container.children[0].append(div);
+    }
+    container.insertAdjacentHTML(
+      "afterbegin",
+      `<h1 class="no__decoration my-3">${title}</h1>`
+    );
+    this.centralzone.append(container);
+  }
+
+  bindDishesCategoryList(handler) {
+    const categoryList = document.getElementById("category-list");
+    const links = categoryList.querySelectorAll("a");
+    for (const link of links) {
+      link.addEventListener("click", (event) => {
+        handler(event.currentTarget.dataset.category);
+      });
+    }
+  }
+  bindDishesCategoryListInMenu(handler) {
+    const navCats = document.getElementById("navCats");
+    const links = navCats.nextSibling.querySelectorAll("a");
+    for (const link of links) {
+      link.addEventListener("click", (event) => {
+        handler(event.currentTarget.dataset.category);
+      });
+    }
+  }
 }
 
 export default RestaurantsManagerView;
