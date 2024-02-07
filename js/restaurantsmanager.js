@@ -789,9 +789,9 @@ const RestaurantsManager = (function () {
     // Generador que recibe una categoría por parámetro y una función de ordenación por parámetro
     // Devolverá un iterador con los platos de esa categoría
     *getDishesInCategory(category, order = null) {
-      if (!(category instanceof Category)) {
-        throw new ObjecManagerException("category", "Category");
-      }
+      // if (!(category instanceof Category)) {
+      //   throw new ObjecManagerException("category", "Category");
+      // }
 
       // Se obtiene la posición de la categoría
       let posCategory = this.#getCategoryPosition(category);

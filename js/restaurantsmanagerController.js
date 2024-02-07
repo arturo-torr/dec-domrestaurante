@@ -259,6 +259,7 @@ class RestaurantsManagerController {
   onInit = () => {
     this[VIEW].showCategories(this[MODEL].categories);
     this[VIEW].showRandomDishes(this[MODEL].dishes);
+    this[VIEW].bindDishesCategoryList(this.handleDishesCategoryList);
   };
 
   handleInit = () => {
@@ -267,6 +268,18 @@ class RestaurantsManagerController {
 
   onAddCategory = () => {
     this[VIEW].showCategoriesInMenu(this[MODEL].categories);
+    this[VIEW].bindDishesCategoryListInMenu(this.handleDishesCategoryList);
+  };
+
+  handleDishesCategoryList = (title) => {
+    const category = this[MODEL].createCategory(
+      title,
+      RestaurantsManager.Category
+    );
+    this[VIEW].listDishes(
+      this[MODEL].getDishesInCategory(category),
+      category.name
+    );
   };
 }
 
