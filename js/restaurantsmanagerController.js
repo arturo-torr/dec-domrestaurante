@@ -51,6 +51,7 @@ class RestaurantsManagerController {
     );
     dish1.ingredients = ["Patatas", "Sal"];
     dish1.description = "Patatas fritas realizadas con aceite de girasol";
+    dish1.image = "img/fries1.jpg";
 
     let dish2 = this[MODEL].createDish(
       "Lentejas con Arroz",
@@ -69,6 +70,7 @@ class RestaurantsManagerController {
       "Cebolla",
     ];
     dish2.description = "Comida tradicional para el invierno";
+    dish2.image = "img/lentejas.jpg";
 
     let dish3 = this[MODEL].createDish(
       "Tortilla de Patatas",
@@ -76,6 +78,7 @@ class RestaurantsManagerController {
     );
     dish3.ingredients = ["Patatas", "Sal", "Aceite", "Huevo"];
     dish3.description = "Comida campera por excelencia para tapa";
+    dish3.image = "img/tortilla.jpg";
 
     let dish4 = this[MODEL].createDish(
       "Arroz con caldo",
@@ -93,6 +96,7 @@ class RestaurantsManagerController {
       "Tomate",
     ];
     dish4.description = "Comida de calidad para los domingos";
+    dish4.image = "img/arroz.jpg";
 
     let dish5 = this[MODEL].createDish(
       "Sopa de cocido",
@@ -108,6 +112,7 @@ class RestaurantsManagerController {
       "Colorante",
     ];
     dish5.description = "Comida excelente para el frío";
+    dish5.image = "img/sopa.jpg";
 
     let dish6 = this[MODEL].createDish(
       "Sopa de tomate",
@@ -121,6 +126,7 @@ class RestaurantsManagerController {
       "Pan",
     ];
     dish6.description = "Comida tradicional española";
+    dish6.image = "img/sopatomate.jpg";
 
     let dish7 = this[MODEL].createDish(
       "Sopa de picadillo",
@@ -128,6 +134,7 @@ class RestaurantsManagerController {
     );
     dish7.ingredients = ["Pan", "Jamon", "Garbanzos", "Pollo", "Agua", "Sal"];
     dish7.description = "Comida reconfortante para reanudar la jornada";
+    dish7.image = "img/sopapicadillo.jpg";
 
     let dish8 = this[MODEL].createDish(
       "Bacalao al pilpil",
@@ -141,6 +148,7 @@ class RestaurantsManagerController {
       "Sal",
     ];
     dish8.description = "Excelente para los que prefieren el mar";
+    dish8.image = "img/bacalao.jpg";
 
     let dish9 = this[MODEL].createDish(
       "Helado casero",
@@ -148,10 +156,12 @@ class RestaurantsManagerController {
     );
     dish9.ingredients = ["Vainilla", "Azúcar", "Sirope de chocolate"];
     dish9.description = "Artesano y delicioso";
+    dish9.image = "img/helado.jpg";
 
     let dish10 = this[MODEL].createDish("Contesa", RestaurantsManager.Dish);
     dish10.ingredients = ["Nata", "Chocolate", "Azúcar"];
     dish10.description = "Postre tradicional español";
+    dish10.image = "img/contesa.jpg";
 
     let dish11 = this[MODEL].createDish(
       "Natillas de la abuela",
@@ -166,6 +176,7 @@ class RestaurantsManagerController {
       "Galleta",
     ];
     dish11.description = "Tradicional, casero y auténtico";
+    dish11.image = "img/natillas.jpg";
 
     let dish12 = this[MODEL].createDish(
       "Arroz con leche",
@@ -180,6 +191,7 @@ class RestaurantsManagerController {
       "Canela",
     ];
     dish12.description = "Postre al estilo Karlos Arguiñano";
+    dish12.image = "img/arrozleche.jpg";
 
     // Creación de alérgenos
     let all1 = this[MODEL].createAllergen(
@@ -246,6 +258,7 @@ class RestaurantsManagerController {
 
   onInit = () => {
     this[VIEW].showCategories(this[MODEL].categories);
+    this[VIEW].showRandomDishes(this[MODEL].dishes);
   };
 
   handleInit = () => {
