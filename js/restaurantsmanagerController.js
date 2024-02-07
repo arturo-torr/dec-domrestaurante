@@ -241,13 +241,19 @@ class RestaurantsManagerController {
 
   onLoad = () => {
     this[LOAD_MANAGER_OBJECTS]();
+    this.onAddCategory();
   };
 
   onInit = () => {
     this[VIEW].showCategories(this[MODEL].categories);
   };
+
   handleInit = () => {
     this.onInit();
+  };
+
+  onAddCategory = () => {
+    this[VIEW].showCategoriesInMenu(this[MODEL].categories);
   };
 }
 

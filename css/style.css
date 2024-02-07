@@ -7,6 +7,10 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+body {
+    background-color: black;
+}
+
 /** ------------- NAVEGACIÓN ------------- **/
 header {
     position: sticky;
@@ -45,6 +49,25 @@ header {
 
 .navbar__menu>a:hover {
     border-bottom: 1px solid #8CDD00;
+}
+
+.navbar__menu:hover {
+    color: #8CDD00;
+}
+
+.dropdown-menu {
+    background-color: #121318;
+    color: #8CDD00;
+}
+
+.dropdown-menu>a {
+    background-color: #121318;
+    color: #8CDD00;
+    font-weight: bold;
+}
+
+.dropdown-menu>a:hover {
+    background-color: #6db500;
 }
 
 /** ------------- PRIMERA SECCIÓN - BURGER + BOTÓN ------------- **/
@@ -391,4 +414,15 @@ input:valid:not(.submit), select:required:valid {
 
 .ussection__information--subsection {
     margin-left: 3vw;
+}
+
+/**  JS **/
+
+.no__decoration {
+    text-decoration: none;
+    color: #8CDD00;
+}
+
+.bg__black {
+    background-color: black;
 }
