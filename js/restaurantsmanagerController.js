@@ -27,128 +27,116 @@ class RestaurantsManagerController {
   [LOAD_MANAGER_OBJECTS]() {
     // Creación de categorías
     const cat1 = this[MODEL].createCategory(
-      "Primeros",
+      "Burger principales",
       RestaurantsManager.Category
     );
-    cat1.description = "Platos seleccionados como primeros";
+    cat1.description = "Hamburguesas especiales";
 
     const cat2 = this[MODEL].createCategory(
-      "Segundos",
+      "Acompañamientos",
       RestaurantsManager.Category
     );
-    cat2.description = "Platos seleccionados como segundos";
+    cat2.description = "Acompañamientos increíbles";
 
     const cat3 = this[MODEL].createCategory(
       "Postres",
       RestaurantsManager.Category
     );
-    cat3.description = "Platos seleccionados como postres";
+    cat3.description = "Postres impresionantes";
 
     // Creación de platos
-    let dish1 = this[MODEL].createDish(
-      "Patatas fritas",
-      RestaurantsManager.Dish
-    );
-    dish1.ingredients = ["Patatas", "Sal"];
-    dish1.description = "Patatas fritas realizadas con aceite de girasol";
-    dish1.image = "img/fries1.jpg";
+    let dish1 = this[MODEL].createDish("Croquetas", RestaurantsManager.Dish);
+    dish1.ingredients = ["Jamón", "Pollo", "Sal", "Sazonador"];
+    dish1.description = "Croquetas de cocido caseras";
+    dish1.image = "img/a4.jpg";
 
     let dish2 = this[MODEL].createDish(
-      "Lentejas con Arroz",
+      "Doble Carne Pepinillo",
       RestaurantsManager.Dish
     );
     dish2.ingredients = [
-      "Lentejas",
-      "Arroz",
-      "Tomate Frito",
-      "Chorizo",
-      "Laurel",
-      "Pimienta",
-      "Pimenton",
-      "Patata",
-      "Ajo",
-      "Cebolla",
+      "Queso",
+      "Ternera",
+      "Lechuga",
+      "Pepinillo",
+      "Kethcup",
+      "Mayonesa",
+      "Mostaza",
     ];
-    dish2.description = "Comida tradicional para el invierno";
-    dish2.image = "img/lentejas.jpg";
+    dish2.description =
+      "Hamburguesa doble carne con pepinillo pinchado en el pan de la hamburguesa";
+    dish2.image = "img/b1.jpeg";
 
     let dish3 = this[MODEL].createDish(
-      "Tortilla de Patatas",
+      "Carne y Bacon",
       RestaurantsManager.Dish
     );
-    dish3.ingredients = ["Patatas", "Sal", "Aceite", "Huevo"];
-    dish3.description = "Comida campera por excelencia para tapa";
-    dish3.image = "img/tortilla.jpg";
+    dish3.ingredients = [
+      "Ternera",
+      "Bacon",
+      "Cheddar",
+      "Ghouda",
+      "Pan bizcocho",
+    ];
+    dish3.description =
+      "Burger tradicional americana con ternera de vacuno y doble de bacon";
+    dish3.image = "img/b2.jpg";
 
     let dish4 = this[MODEL].createDish(
-      "Arroz con caldo",
+      "Carne y Huevo",
       RestaurantsManager.Dish
     );
     dish4.ingredients = [
-      "Ajo",
-      "Cebolla",
-      "Pimenton",
-      "Colorante",
-      "Pimienta",
-      "Magro",
-      "Pollo",
-      "Arroz",
+      "Ternera",
+      "Lechuga",
       "Tomate",
+      "Huevo Frito",
+      "Cheddar",
+      "Ghouda",
     ];
-    dish4.description = "Comida de calidad para los domingos";
-    dish4.image = "img/arroz.jpg";
+    dish4.description = "Burguer con huevo frito, especialidad de la casa";
+    dish4.image = "img/b3.jpg";
 
     let dish5 = this[MODEL].createDish(
-      "Sopa de cocido",
+      "Desmenuzada con cebolla",
       RestaurantsManager.Dish
     );
     dish5.ingredients = [
-      "Patata",
-      "Garbanzos",
-      "Pollo",
-      "Jamon",
-      "Fideos",
-      "Sal",
-      "Colorante",
+      "Cerdo",
+      "Cebolla",
+      "Mayonesa",
+      "Lechuga",
+      "Cebolla caramelizada",
+      "Mostaza",
     ];
-    dish5.description = "Comida excelente para el frío";
-    dish5.image = "img/sopa.jpg";
+    dish5.description =
+      "Burguer con cerdo desmenuzado, nuestra hamburguesa más artesana";
+    dish5.image = "img/b4.jpg";
 
     let dish6 = this[MODEL].createDish(
-      "Sopa de tomate",
+      "Tiras de pollo",
       RestaurantsManager.Dish
     );
-    dish6.ingredients = [
-      "Tomate picado",
-      "Pimentón dulce",
-      "Agua",
-      "Sal",
-      "Pan",
-    ];
-    dish6.description = "Comida tradicional española";
-    dish6.image = "img/sopatomate.jpg";
+    dish6.ingredients = ["Pollo frito", "Pimienta negra", "Sal"];
+    dish6.description = "Tiras de pollo tradicionales al estilo Kentucky";
+    dish6.image = "img/a1.jpg";
 
     let dish7 = this[MODEL].createDish(
-      "Sopa de picadillo",
+      "Fingers de pollo",
       RestaurantsManager.Dish
     );
-    dish7.ingredients = ["Pan", "Jamon", "Garbanzos", "Pollo", "Agua", "Sal"];
-    dish7.description = "Comida reconfortante para reanudar la jornada";
-    dish7.image = "img/sopapicadillo.jpg";
+    dish7.ingredients = ["Tiras de pollo", "Aceite", "Sazonador"];
+    dish7.description =
+      "Fingers de pollo americanos recién sacados de la freidora";
+    dish7.image = "img/a2.jpg";
 
     let dish8 = this[MODEL].createDish(
-      "Bacalao al pilpil",
+      "Bravas españolas",
       RestaurantsManager.Dish
     );
-    dish8.ingredients = [
-      "Bacalao desalado",
-      "Aceite de oliva",
-      "Ajo",
-      "Patatas",
-      "Sal",
-    ];
-    dish8.description = "Excelente para los que prefieren el mar";
-    dish8.image = "img/bacalao.jpg";
+    dish8.ingredients = ["Patata", "Tabasco", "Tomate", "Sal"];
+    dish8.description = "El acompañamiento más tradicional español";
+    dish8.image = "img/a3.jpg";
 
     let dish9 = this[MODEL].createDish(
       "Helado casero",
