@@ -268,6 +268,19 @@ class RestaurantsManagerController {
       this[MODEL].getDishesInCategory(category),
       category.name
     );
+    this[VIEW].bindShowDish(this.handleShowDish);
+  };
+
+  handleShowDish = (name) => {
+    try {
+      const dish = this[MODEL].createDish(name, RestaurantsManager.Dish);
+      this[VIEW].showDish(dish);
+    } catch (error) {
+      this[VIEW].showDish(
+        null,
+        "No existe este plato actualmente en la página."
+      );
+    }
   };
 }
 
