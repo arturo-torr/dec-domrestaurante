@@ -20,7 +20,7 @@ header {
 
 .navbar {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(8, 1fr);
     align-items: center;
     background-color: #121318;
     font-weight: 600;

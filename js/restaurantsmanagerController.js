@@ -197,6 +197,16 @@ class RestaurantsManagerController {
     );
 
     this[MODEL].addAllergen(all1, all2, all3, all4);
+    this[MODEL].assignAllergenToDish(
+      all1,
+      dish11,
+      dish12,
+      dish10,
+      dish9,
+      dish4,
+      dish3,
+      dish2
+    );
 
     // Creación de menús
     let menu1 = this[MODEL].createMenu(
@@ -242,6 +252,7 @@ class RestaurantsManagerController {
   onLoad = () => {
     this[LOAD_MANAGER_OBJECTS]();
     this.onAddCategory();
+    this.onAddAllergen();
   };
 
   onInit = () => {
@@ -259,6 +270,11 @@ class RestaurantsManagerController {
     this[VIEW].bindDishesCategoryListInMenu(this.handleDishesCategoryList);
   };
 
+  onAddAllergen = () => {
+    this[VIEW].showAllergensInMenu(this[MODEL].allergens);
+    this[VIEW].bindDishesAllergenListInMenu(this.handleDishesAllergenList);
+  };
+
   handleDishesCategoryList = (title) => {
     const category = this[MODEL].createCategory(
       title,
@@ -267,6 +283,18 @@ class RestaurantsManagerController {
     this[VIEW].listDishes(
       this[MODEL].getDishesInCategory(category),
       category.name
+    );
+    this[VIEW].bindShowDish(this.handleShowDish);
+  };
+
+  handleDishesAllergenList = (name) => {
+    const allergen = this[MODEL].createAllergen(
+      name,
+      RestaurantsManager.Allergen
+    );
+    this[VIEW].listDishes(
+      this[MODEL].getDishesWithAllergen(allergen),
+      allergen.name
     );
     this[VIEW].bindShowDish(this.handleShowDish);
   };

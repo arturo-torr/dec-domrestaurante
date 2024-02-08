@@ -161,6 +161,61 @@ class RestaurantsManagerView {
     this.menu.append(div);
   }
 
+  // Función que permite mostrar en el menú de navegación un ítem dropdown con las categorías
+  showAllergensInMenu(allergens) {
+    // Crea un div y le asignamos formato de navegación
+    const div = document.createElement("div");
+    div.classList.add("nav-item", "dropdown", "navbar__menu");
+    // Le insertamos el HTML que permite que sea dropdown
+    div.insertAdjacentHTML(
+      "beforeend",
+      `<a
+        class="nav-link dropdown-toggle"
+        href="#"
+        id="navAllergens"
+        role="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false">
+        Alérgenos
+      </a>`
+    );
+
+    // Crea un div y le asigna el formato que será el desplegable
+    const container = document.createElement("div");
+    container.classList.add("dropdown-menu");
+    // Recorremos las categorías y se insertarán dentro del desplegable
+    for (const allergen of allergens) {
+      container.insertAdjacentHTML(
+        "beforeend",
+        `
+          <a
+            data-allergen="${allergen.allergen.name}"
+            class="dropdown-item"
+            href="#category-list"
+          >
+            ${allergen.allergen.name}
+          </a>`
+      );
+    }
+    div.append(container);
+    // Inserta el menú de navegación creado
+    this.menu.append(div);
+  }
+
+  // Manejador que se da cuando se realiza click en la zona de navegación de categorías
+  bindDishesAllergenListInMenu(handler) {
+    // Obtiene el elemento de navCats y recoge el siguiente hermano con el tag <a>
+    const navAllergens = document.getElementById("navAllergens");
+    const links = navAllergens.nextSibling.querySelectorAll("a");
+    console.log(links);
+    // Los recorre y recupera el nombre de la categoría con el atributo personalizado dataset.category
+    for (const link of links) {
+      link.addEventListener("click", (event) => {
+        handler(event.currentTarget.dataset.allergen);
+      });
+    }
+  }
+
   // Función que permite listar los platos de una categoría
   listDishes(dishes, title) {
     // Borra la zona central
