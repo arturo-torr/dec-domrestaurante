@@ -64,6 +64,10 @@ class Dish {
     };
   }
 
+  get stringIngredients() {
+    return this.#ingredients.join(", ");
+  }
+
   set ingredients(value = []) {
     this.#ingredients = value;
   }

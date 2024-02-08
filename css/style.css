@@ -428,11 +428,24 @@ input:valid:not(.submit), select:required:valid {
 
 /**  JS **/
 
-.no__decoration {
+.text--green {
     text-decoration: none;
     color: #8CDD00;
 }
 
 .bg__black {
     background-color: black;
+}
+
+.bg__grey {
+    background-color: #121318;
+}
+
+.border--green {
+    border: 2px solid #8CDD00;
+}
+
+.border--green:hover {
+    border: 2px solid #6db500;
+    background-color: #121318;
 }
