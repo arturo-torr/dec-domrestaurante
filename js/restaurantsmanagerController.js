@@ -234,17 +234,17 @@ class RestaurantsManagerController {
 
     // Creación de restaurantes
     let res1 = this[MODEL].createRestaurant(
-      "Restaurante 1",
+      "KBA Madrid",
       RestaurantsManager.Restaurant
     );
     // Creación de restaurantes
     let res2 = this[MODEL].createRestaurant(
-      "Restaurante 2",
+      "KBA Ciudad Real",
       RestaurantsManager.Restaurant
     );
     // Creación de restaurantes
     let res3 = this[MODEL].createRestaurant(
-      "Restaurante 3",
+      "KBA Parla",
       RestaurantsManager.Restaurant
     );
     this[MODEL].addRestaurant(res1, res2, res3);
@@ -255,12 +255,26 @@ class RestaurantsManagerController {
     this.onAddCategory();
     this.onAddAllergen();
     this.onAddMenu();
+    this.onAddRestaurant();
   };
 
   onInit = () => {
     this[VIEW].showCategories(this[MODEL].categories);
     this[VIEW].showRandomDishes(this[MODEL].dishes);
     this[VIEW].bindDishesCategoryList(this.handleDishesCategoryList);
+    this[VIEW].bindDishesRandomList(this.handleDishesRandomList);
+  };
+
+  handleShowDish = (name) => {
+    try {
+      const dish = this[MODEL].createDish(name, RestaurantsManager.Dish);
+      this[VIEW].showDish(dish);
+    } catch (error) {
+      this[VIEW].showDish(
+        null,
+        "No existe este plato actualmente en la página."
+      );
+    }
   };
 
   handleInit = () => {
@@ -280,6 +294,16 @@ class RestaurantsManagerController {
   onAddMenu = () => {
     this[VIEW].showMenusInNav(this[MODEL].menus);
     this[VIEW].bindMenuListInNav(this.handleDishesMenuList);
+  };
+
+  onAddRestaurant = () => {
+    this[VIEW].showRestaurantsInMenu(this[MODEL].restaurants);
+    //this[VIEW].bindRestaurantListInMenu(this.handleRestaurantsMenuList);
+  };
+
+  handleDishesRandomList = (name) => {
+    const dish = this[MODEL].createDish(name, RestaurantsManager.Dish);
+    this[VIEW].bindDishesRandomList(this.handleShowDish(dish.name));
   };
 
   handleDishesCategoryList = (name) => {
@@ -312,16 +336,13 @@ class RestaurantsManagerController {
     this[VIEW].bindShowDish(this.handleShowDish);
   };
 
-  handleShowDish = (name) => {
-    try {
-      const dish = this[MODEL].createDish(name, RestaurantsManager.Dish);
-      this[VIEW].showDish(dish);
-    } catch (error) {
-      this[VIEW].showDish(
-        null,
-        "No existe este plato actualmente en la página."
-      );
-    }
+  handleRestaurantsMenuList = (name) => {
+    const rest = this[MODEL].createRestaurant(
+      name,
+      RestaurantsManager.Restaurant
+    );
+    this[VIEW].listDishes(this[MODEL].getDishesInMenu(rest), rest.name);
+    this[VIEW].bindShowDish(this.handleShowDish);
   };
 }
 
