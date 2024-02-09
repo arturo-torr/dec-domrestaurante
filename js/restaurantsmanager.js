@@ -789,9 +789,9 @@ const RestaurantsManager = (function () {
     // Generador que recibe una categoría por parámetro y una función de ordenación por parámetro
     // Devolverá un iterador con los platos de esa categoría
     *getDishesInCategory(category, order = null) {
-      // if (!(category instanceof Category)) {
-      //   throw new ObjecManagerException("category", "Category");
-      // }
+      if (!(category instanceof Category)) {
+        throw new ObjecManagerException("category", "Category");
+      }
 
       // Se obtiene la posición de la categoría
       let posCategory = this.#getCategoryPosition(category);
@@ -813,7 +813,7 @@ const RestaurantsManager = (function () {
     }
 
     // Generador que recibe una categoría por parámetro y una función de ordenación por parámetro
-    // Devolverá un iterador con los platos de esa categoría
+    // Devolverá un iterador con los platos con ese alérgeno
     *getDishesWithAllergen(allergen, order = null) {
       if (!(allergen instanceof Allergen)) {
         throw new ObjecManagerException("allergen", "Allergen");
@@ -824,6 +824,29 @@ const RestaurantsManager = (function () {
 
       // Asignamos a una variable los alérgenos con los platos para no alterar la referencia original del array de alérgenos
       const array = [].concat(this.#allergens[posAllergen].dishes);
+
+      // Lo ordenamos, si hemos recibido una función, la utilizará, si no, dejará el array tal cual está
+      if (order) {
+        array.sort(order);
+      }
+      // Iterador
+      for (const dish of array) {
+        yield dish;
+      }
+    }
+
+    // Generador que recibe una categoría por parámetro y una función de ordenación por parámetro
+    // Devolverá un iterador con los platos de ese menú
+    *getDishesInMenu(menu, order = null) {
+      if (!(menu instanceof Menu)) {
+        throw new ObjecManagerException("menu", "Menu");
+      }
+
+      // Se obtiene la posición del menú
+      let posMenu = this.#getMenuPosition(menu);
+
+      // Asignamos a una variable los menús con los platos para no alterar la referencia original del array de menús
+      const array = [].concat(this.#menus[posMenu].dishes);
 
       // Lo ordenamos, si hemos recibido una función, la utilizará, si no, dejará el array tal cual está
       if (order) {

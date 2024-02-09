@@ -59,7 +59,7 @@ class RestaurantsManagerController {
       "Ternera",
       "Lechuga",
       "Pepinillo",
-      "Kethcup",
+      "Ketchup",
       "Mayonesa",
       "Mostaza",
     ];
@@ -197,20 +197,31 @@ class RestaurantsManagerController {
     );
 
     this[MODEL].addAllergen(all1, all2, all3, all4);
+    this[MODEL].assignAllergenToDish(
+      all1,
+      dish11,
+      dish12,
+      dish10,
+      dish9,
+      dish4,
+      dish3,
+      dish2
+    );
+
+    this[MODEL].assignAllergenToDish(all2, dish3, dish4, dish5, dish7, dish10);
+    this[MODEL].assignAllergenToDish(all3, dish5, dish6, dish7);
+    this[MODEL].assignAllergenToDish(all4, dish2, dish3, dish4);
 
     // Creación de menús
     let menu1 = this[MODEL].createMenu(
-      "Menu del Miercoles",
+      "Classic Arthur Menu",
       RestaurantsManager.Menu
     );
     let menu2 = this[MODEL].createMenu(
-      "Menu del Jueves",
+      "Funny Flavours",
       RestaurantsManager.Menu
     );
-    let menu3 = this[MODEL].createMenu(
-      "Menu del Viernes",
-      RestaurantsManager.Menu
-    );
+    let menu3 = this[MODEL].createMenu("New and Old", RestaurantsManager.Menu);
 
     // Asignación de platos a categorías y menús
     this[MODEL].assignCategoryToDish(cat1, dish2, dish3, dish4, dish5);
@@ -223,17 +234,17 @@ class RestaurantsManagerController {
 
     // Creación de restaurantes
     let res1 = this[MODEL].createRestaurant(
-      "Restaurante 1",
+      "KBA Madrid",
       RestaurantsManager.Restaurant
     );
     // Creación de restaurantes
     let res2 = this[MODEL].createRestaurant(
-      "Restaurante 2",
+      "KBA Ciudad Real",
       RestaurantsManager.Restaurant
     );
     // Creación de restaurantes
     let res3 = this[MODEL].createRestaurant(
-      "Restaurante 3",
+      "KBA Parla",
       RestaurantsManager.Restaurant
     );
     this[MODEL].addRestaurant(res1, res2, res3);
@@ -242,33 +253,16 @@ class RestaurantsManagerController {
   onLoad = () => {
     this[LOAD_MANAGER_OBJECTS]();
     this.onAddCategory();
+    this.onAddAllergen();
+    this.onAddMenu();
+    this.onAddRestaurant();
   };
 
   onInit = () => {
     this[VIEW].showCategories(this[MODEL].categories);
     this[VIEW].showRandomDishes(this[MODEL].dishes);
     this[VIEW].bindDishesCategoryList(this.handleDishesCategoryList);
-  };
-
-  handleInit = () => {
-    this.onInit();
-  };
-
-  onAddCategory = () => {
-    this[VIEW].showCategoriesInMenu(this[MODEL].categories);
-    this[VIEW].bindDishesCategoryListInMenu(this.handleDishesCategoryList);
-  };
-
-  handleDishesCategoryList = (title) => {
-    const category = this[MODEL].createCategory(
-      title,
-      RestaurantsManager.Category
-    );
-    this[VIEW].listDishes(
-      this[MODEL].getDishesInCategory(category),
-      category.name
-    );
-    this[VIEW].bindShowDish(this.handleShowDish);
+    this[VIEW].bindDishesRandomList(this.handleDishesRandomList);
   };
 
   handleShowDish = (name) => {
@@ -281,6 +275,74 @@ class RestaurantsManagerController {
         "No existe este plato actualmente en la página."
       );
     }
+  };
+
+  handleInit = () => {
+    this.onInit();
+  };
+
+  onAddCategory = () => {
+    this[VIEW].showCategoriesInMenu(this[MODEL].categories);
+    this[VIEW].bindDishesCategoryListInMenu(this.handleDishesCategoryList);
+  };
+
+  onAddAllergen = () => {
+    this[VIEW].showAllergensInMenu(this[MODEL].allergens);
+    this[VIEW].bindDishesAllergenListInMenu(this.handleDishesAllergenList);
+  };
+
+  onAddMenu = () => {
+    this[VIEW].showMenusInNav(this[MODEL].menus);
+    this[VIEW].bindMenuListInNav(this.handleDishesMenuList);
+  };
+
+  onAddRestaurant = () => {
+    this[VIEW].showRestaurantsInMenu(this[MODEL].restaurants);
+    //this[VIEW].bindRestaurantListInMenu(this.handleRestaurantsMenuList);
+  };
+
+  handleDishesRandomList = (name) => {
+    const dish = this[MODEL].createDish(name, RestaurantsManager.Dish);
+    this[VIEW].bindDishesRandomList(this.handleShowDish(dish.name));
+  };
+
+  handleDishesCategoryList = (name) => {
+    const category = this[MODEL].createCategory(
+      name,
+      RestaurantsManager.Category
+    );
+    this[VIEW].listDishes(
+      this[MODEL].getDishesInCategory(category),
+      category.name
+    );
+    this[VIEW].bindShowDish(this.handleShowDish);
+  };
+
+  handleDishesAllergenList = (name) => {
+    const allergen = this[MODEL].createAllergen(
+      name,
+      RestaurantsManager.Allergen
+    );
+    this[VIEW].listDishes(
+      this[MODEL].getDishesWithAllergen(allergen),
+      allergen.name
+    );
+    this[VIEW].bindShowDish(this.handleShowDish);
+  };
+
+  handleDishesMenuList = (name) => {
+    const menu = this[MODEL].createMenu(name, RestaurantsManager.Menu);
+    this[VIEW].listDishes(this[MODEL].getDishesInMenu(menu), menu.name);
+    this[VIEW].bindShowDish(this.handleShowDish);
+  };
+
+  handleRestaurantsMenuList = (name) => {
+    const rest = this[MODEL].createRestaurant(
+      name,
+      RestaurantsManager.Restaurant
+    );
+    this[VIEW].listDishes(this[MODEL].getDishesInMenu(rest), rest.name);
+    this[VIEW].bindShowDish(this.handleShowDish);
   };
 }
 
