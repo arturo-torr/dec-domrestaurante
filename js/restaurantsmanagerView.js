@@ -161,7 +161,7 @@ class RestaurantsManagerView {
     this.menu.append(div);
   }
 
-  // Función que permite mostrar en el menú de navegación un ítem dropdown con las categorías
+  // Función que permite mostrar en el menú de navegación un ítem dropdown con los alérgenos
   showAllergensInMenu(allergens) {
     // Crea un div y le asignamos formato de navegación
     const div = document.createElement("div");
@@ -183,7 +183,7 @@ class RestaurantsManagerView {
     // Crea un div y le asigna el formato que será el desplegable
     const container = document.createElement("div");
     container.classList.add("dropdown-menu");
-    // Recorremos las categorías y se insertarán dentro del desplegable
+    // Recorremos los alérgenos y se insertarán dentro del desplegable
     for (const allergen of allergens) {
       container.insertAdjacentHTML(
         "beforeend",
@@ -202,16 +202,69 @@ class RestaurantsManagerView {
     this.menu.append(div);
   }
 
-  // Manejador que se da cuando se realiza click en la zona de navegación de categorías
+  // Manejador de unión que se da cuando se realiza click en la zona de navegación de alérgenos
   bindDishesAllergenListInMenu(handler) {
     // Obtiene el elemento de navCats y recoge el siguiente hermano con el tag <a>
     const navAllergens = document.getElementById("navAllergens");
     const links = navAllergens.nextSibling.querySelectorAll("a");
-    console.log(links);
-    // Los recorre y recupera el nombre de la categoría con el atributo personalizado dataset.category
+    // Los recorre y recupera el nombre de la categoría con el atributo personalizado data-allergen
     for (const link of links) {
       link.addEventListener("click", (event) => {
         handler(event.currentTarget.dataset.allergen);
+      });
+    }
+  }
+
+  // Función que permite mostrar en el menú de navegación un ítem dropdown con los menús registrados
+  showMenusInNav(menus) {
+    // Crea un div y le asignamos formato de navegación
+    const div = document.createElement("div");
+    div.classList.add("nav-item", "dropdown", "navbar__menu");
+    // Le insertamos el HTML que permite que sea dropdown
+    div.insertAdjacentHTML(
+      "beforeend",
+      `<a
+        class="nav-link dropdown-toggle"
+        href="#"
+        id="navMenus"
+        role="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false">
+        Menús
+      </a>`
+    );
+
+    // Crea un div y le asigna el formato que será el desplegable
+    const container = document.createElement("div");
+    container.classList.add("dropdown-menu");
+    // Recorremos los alérgenos y se insertarán dentro del desplegable
+    for (const menu of menus) {
+      container.insertAdjacentHTML(
+        "beforeend",
+        `
+          <a
+            data-menu="${menu.menu.name}"
+            class="dropdown-item"
+            href="#category-list"
+          >
+            ${menu.menu.name}
+          </a>`
+      );
+    }
+    div.append(container);
+    // Inserta el menú de navegación creado
+    this.menu.append(div);
+  }
+
+  // Manejador de unión que se da cuando se realiza click en la zona de navegación de menús
+  bindMenuListInNav(handler) {
+    // Obtiene el elemento de navCats y recoge el siguiente hermano con el tag <a>
+    const navMenus = document.getElementById("navMenus");
+    const links = navMenus.nextSibling.querySelectorAll("a");
+    // Los recorre y recupera el nombre de la categoría con el atributo personalizado data-allergen
+    for (const link of links) {
+      link.addEventListener("click", (event) => {
+        handler(event.currentTarget.dataset.menu);
       });
     }
   }
@@ -234,10 +287,10 @@ class RestaurantsManagerView {
       div.classList.add("col-md-4");
       div.insertAdjacentHTML(
         "beforeend",
-        `<figure class="card cardproduct-grid card-lg bg__black">
-            <a data-name="${dish.dish.name}" href="#single-dish" class="img-wrap text--green text-center">
+        `<figure class="card bg__black">
+            <a data-name="${dish.dish.name}" href="#single-dish" class="text--green text-center">
               <img class="img-fluid" src="${dish.dish.image}">
-              <p class="my-3">${dish.dish.name}</p>
+              <figcaption class="my-3">${dish.dish.name}</figcaption>
             </a>
         </figure>`
       );
@@ -277,13 +330,16 @@ class RestaurantsManagerView {
     }
   }
 
+  // Función que permite mostrar una tarjeta personalizada con la información de cada plato
   showDish(dish, message) {
     this.centralzone.replaceChildren();
     if (this.centralzone.children.length > 1)
       this.centralzone.children[1].remove();
 
+    // Crea el contenedor y le añade las clases
     const container = document.createElement("div");
-    container.classList.add("container", "mt-5", "mb-5");
+    container.classList.add("container", "my-5");
+    // Si se obtiene el plato correctamente, se le otorga un id y se da formato en HTML
     if (dish) {
       container.id = "single-dish";
       container.insertAdjacentHTML(
@@ -325,6 +381,7 @@ class RestaurantsManagerView {
           </div>
         </div>`
       );
+      // Si no se encuentra el plato, lanza un mensaje de error
     } else {
       container.insertAdjacentHTML(
         "beforeend",
@@ -334,9 +391,10 @@ class RestaurantsManagerView {
     this.centralzone.append(container);
   }
 
+  // Permite unir con el controlador el plato
   bindShowDish(handler) {
     const categoryList = document.getElementById("category-list");
-    const links = categoryList.querySelectorAll("a.img-wrap");
+    const links = categoryList.querySelectorAll("a.text--green");
     for (const link of links) {
       link.addEventListener("click", (event) => {
         handler(event.currentTarget.dataset.name);

@@ -59,7 +59,7 @@ class RestaurantsManagerController {
       "Ternera",
       "Lechuga",
       "Pepinillo",
-      "Kethcup",
+      "Ketchup",
       "Mayonesa",
       "Mostaza",
     ];
@@ -208,19 +208,20 @@ class RestaurantsManagerController {
       dish2
     );
 
+    this[MODEL].assignAllergenToDish(all2, dish3, dish4, dish5, dish7, dish10);
+    this[MODEL].assignAllergenToDish(all3, dish5, dish6, dish7);
+    this[MODEL].assignAllergenToDish(all4, dish2, dish3, dish4);
+
     // Creación de menús
     let menu1 = this[MODEL].createMenu(
-      "Menu del Miercoles",
+      "Classic Arthur Menu",
       RestaurantsManager.Menu
     );
     let menu2 = this[MODEL].createMenu(
-      "Menu del Jueves",
+      "Funny Flavours",
       RestaurantsManager.Menu
     );
-    let menu3 = this[MODEL].createMenu(
-      "Menu del Viernes",
-      RestaurantsManager.Menu
-    );
+    let menu3 = this[MODEL].createMenu("New and Old", RestaurantsManager.Menu);
 
     // Asignación de platos a categorías y menús
     this[MODEL].assignCategoryToDish(cat1, dish2, dish3, dish4, dish5);
@@ -253,6 +254,7 @@ class RestaurantsManagerController {
     this[LOAD_MANAGER_OBJECTS]();
     this.onAddCategory();
     this.onAddAllergen();
+    this.onAddMenu();
   };
 
   onInit = () => {
@@ -275,9 +277,14 @@ class RestaurantsManagerController {
     this[VIEW].bindDishesAllergenListInMenu(this.handleDishesAllergenList);
   };
 
-  handleDishesCategoryList = (title) => {
+  onAddMenu = () => {
+    this[VIEW].showMenusInNav(this[MODEL].menus);
+    this[VIEW].bindMenuListInNav(this.handleDishesMenuList);
+  };
+
+  handleDishesCategoryList = (name) => {
     const category = this[MODEL].createCategory(
-      title,
+      name,
       RestaurantsManager.Category
     );
     this[VIEW].listDishes(
@@ -296,6 +303,12 @@ class RestaurantsManagerController {
       this[MODEL].getDishesWithAllergen(allergen),
       allergen.name
     );
+    this[VIEW].bindShowDish(this.handleShowDish);
+  };
+
+  handleDishesMenuList = (name) => {
+    const menu = this[MODEL].createMenu(name, RestaurantsManager.Menu);
+    this[VIEW].listDishes(this[MODEL].getDishesInMenu(menu), menu.name);
     this[VIEW].bindShowDish(this.handleShowDish);
   };
 
