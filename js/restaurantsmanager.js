@@ -858,6 +858,33 @@ const RestaurantsManager = (function () {
       }
     }
 
+    // Función que permite obtener aleatoriamente 3 platos
+    getRandomDishes() {
+      // Se genera un array con el iterador de platos
+      let allDishes = [...this.#dishes];
+      // Creamos un array vacío que posteriormente devolveremos
+      let randomDishes = [];
+      // Variable para comprobar si puede salir del bucle
+      let completed = false;
+
+      for (let i = 0; !completed; i++) {
+        // Obtenemos un índice aleatorio entre 0 y la longitud de allDishes
+        let index = Math.floor(Math.random() * allDishes.length);
+
+        // Variable utilizada para ver si el plato ya se encuentra en el array que devolveremos, evitando así que se muestren platos duplicados
+        let found = randomDishes.find(
+          (x) => x.dish.name === allDishes[index].dish.name
+        );
+
+        // Si no se encuentra, lo introduce en el array
+        if (!found) randomDishes.push(allDishes[index]);
+
+        // Cuando la longitud es 3, sale del bucle
+        if (randomDishes.length === 3) completed = true;
+      }
+
+      return randomDishes;
+    }
     // Función que devuelve un iterador en base a un criterio que reciba por parámetro
     *findDishes(order = null, search = null) {
       // Obtenemos en un array los ingredientes del plato

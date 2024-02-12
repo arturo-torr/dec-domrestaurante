@@ -14,43 +14,11 @@ class RestaurantsManagerView {
     });
   }
 
-  // Función que permite obtener aleatoriamente 3 platos del iterador de restaurant manager
-  getRandomDishes(dishes) {
-    // Se genera un array con el iterador de platos
-    let allDishes = [...dishes];
-    // Creamos un array vacío que posteriormente devolveremos
-    let randomDishes = [];
-    // Variable para comprobar si puede salir del bucle
-    let completed = false;
-
-    for (let i = 0; !completed; i++) {
-      // Obtenemos un índice aleatorio entre 0 y la longitud de allDishes
-      let index = Math.floor(Math.random() * allDishes.length);
-
-      // Variable utilizada para ver si el plato ya se encuentra en el array que devolveremos, evitando así que se muestren platos duplicados
-      let found = randomDishes.find(
-        (x) => x.dish.name === allDishes[index].dish.name
-      );
-
-      // Si no se encuentra, lo introduce en el array
-      if (!found) randomDishes.push(allDishes[index]);
-
-      // Cuando la longitud es 3, sale del bucle
-      if (randomDishes.length === 3) completed = true;
-    }
-
-    return randomDishes;
-  }
-
   // Función que permite visualizar platos en la zona inicial del HTML
   showRandomDishes(dishes) {
     if (this.initzone.children.length > 0) {
       this.initzone.children[0].remove();
     }
-
-    // Obtenemos tres platos aleatorios
-    let randomDishes = this.getRandomDishes(dishes);
-
     // Creamos un nuevo div y le asignamos un id y las clases pertinentes
     const container = document.createElement("div");
     container.id = "random-list";
@@ -60,14 +28,14 @@ class RestaurantsManagerView {
       "beforeend",
       `<h1 class="text--green bg__black my-3">Nuestros platos</h1>`
     );
-    // Recorremos el array con los tres platos y le damos el formato necesario
-    for (const dish of randomDishes) {
+    // Recorremos el array con los platos y le damos el formato necesario
+    for (const dish of dishes) {
       container.insertAdjacentHTML(
         "beforeend",
         `<div class="col-sm-4 col-lg-4 col-md-4 col-xl-4 my-1">
           <a
             class="text--green"
-            data-dish="${dish.dish.name}"
+            data-name="${dish.dish.name}"
             href="#single-dish">
             <div>
               <img
@@ -87,28 +55,31 @@ class RestaurantsManagerView {
     this.initzone.append(container);
   }
 
+  // Manejador que se da cuando se realiza click en la zona con los platos aleatorios
   bindDishesRandomList(handler) {
     // Obtiene el elemento y aquellos que dentro se compongan con el tag <a>
-    const categoryList = document.getElementById("random-list");
-    const links = categoryList.querySelectorAll("a");
-    // Los recorre y recupera el nombre de la categoría con el atributo personalizado dataset.category
-    for (const link of links) {
-      link.addEventListener("click", (event) => {
-        handler(event.currentTarget.dataset.dish);
-      });
-    }
-  }
-
-  // Permite unir con el controlador el plato, añadiendo un manejador de eventos para cada plato
-  bindShowDish(handler) {
-    const categoryList = document.getElementById("dish-list");
-    const links = categoryList.querySelectorAll("a.text--green");
+    const randomList = document.getElementById("random-list");
+    const links = randomList.querySelectorAll("a");
+    // Los recorre y recupera el nombre del plato con el atributo personalizado dataset.name
     for (const link of links) {
       link.addEventListener("click", (event) => {
         handler(event.currentTarget.dataset.name);
       });
     }
-    const images = categoryList.querySelectorAll("figcaption a");
+  }
+
+  // Permite unir con el controlador el plato (de aquellos que formen parte de una lista, nunca de los platos iniciales aleatorios), añadiendo un manejador de eventos para cada plato
+  bindShowDish(handler) {
+    // Obtiene el elemento y los links
+    const dishList = document.getElementById("dish-list");
+    const links = dishList.querySelectorAll("a.text--green");
+    for (const link of links) {
+      link.addEventListener("click", (event) => {
+        handler(event.currentTarget.dataset.name);
+      });
+    }
+    // También recoge las imágenes
+    const images = dishList.querySelectorAll("figcaption a");
     for (const image of images) {
       image.addEventListener("click", (event) => {
         handler(event.currentTarget.dataset.name);
@@ -121,7 +92,6 @@ class RestaurantsManagerView {
     if (this.centralzone.children.length > 0) {
       this.centralzone.children[0].remove();
     }
-
     // Crea un elemento div, se le asigna un id y las clases necesarias
     const container = document.createElement("div");
     container.id = "dish-list";
@@ -135,7 +105,7 @@ class RestaurantsManagerView {
     for (const category of categories) {
       container.insertAdjacentHTML(
         "beforeend",
-        `<div class="col-sm-4 col-lg-4 col-md-4 col-xl-4 bg__black my-5">
+        `<div class="col-sm-4 col-lg-4 col-md-4 col-xl-4 bg__black my-3">
           <a class="text--green" data-category="${category.category.name}" href="#dish-list">
             <div class="border--green rounded p-3">
               <h3>${category.category.name}</h3>
@@ -190,6 +160,32 @@ class RestaurantsManagerView {
     this.menu.append(div);
   }
 
+  // Manejador que se da cuando se realiza click en la zona central de categorías
+  bindDishesCategoryList(handler) {
+    // Obtiene el elemento y aquellos que dentro se compongan con el tag <a>
+    const categoryList = document.getElementById("dish-list");
+    const links = categoryList.querySelectorAll("a");
+    // Los recorre y recupera el nombre de la categoría con el atributo personalizado dataset.category
+    for (const link of links) {
+      link.addEventListener("click", (event) => {
+        handler(event.currentTarget.dataset.category);
+      });
+    }
+  }
+
+  // Manejador que se da cuando se realiza click en la zona de navegación de categorías
+  bindDishesCategoryListInMenu(handler) {
+    // Obtiene el elemento de navCats y recoge el siguiente hermano con el tag <a>
+    const navCats = document.getElementById("navCats");
+    const links = navCats.nextSibling.querySelectorAll("a");
+    // Los recorre y recupera el nombre de la categoría con el atributo personalizado dataset.category
+    for (const link of links) {
+      link.addEventListener("click", (event) => {
+        handler(event.currentTarget.dataset.category);
+      });
+    }
+  }
+
   // Función que permite mostrar en el menú de navegación un ítem dropdown con los alérgenos
   showAllergensInMenu(allergens) {
     // Crea un div y le asignamos formato de navegación
@@ -233,10 +229,10 @@ class RestaurantsManagerView {
 
   // Manejador de unión que se da cuando se realiza click en la zona de navegación de alérgenos
   bindDishesAllergenListInMenu(handler) {
-    // Obtiene el elemento de navCats y recoge el siguiente hermano con el tag <a>
+    // Obtiene el elemento de navAllergens y recoge los tag <a>
     const navAllergens = document.getElementById("navAllergens");
     const links = navAllergens.nextSibling.querySelectorAll("a");
-    // Los recorre y recupera el nombre de la categoría con el atributo personalizado data-allergen
+    // Los recorre y añade el manejador para aquellos que tienen el atributo allergen
     for (const link of links) {
       link.addEventListener("click", (event) => {
         handler(event.currentTarget.dataset.allergen);
@@ -266,7 +262,7 @@ class RestaurantsManagerView {
     // Crea un div y le asigna el formato que será el desplegable
     const container = document.createElement("div");
     container.classList.add("dropdown-menu");
-    // Recorremos los alérgenos y se insertarán dentro del desplegable
+    // Recorremos los menús y se insertarán dentro del desplegable
     for (const menu of menus) {
       container.insertAdjacentHTML(
         "beforeend",
@@ -287,10 +283,10 @@ class RestaurantsManagerView {
 
   // Manejador de unión que se da cuando se realiza click en la zona de navegación de menús
   bindMenuListInNav(handler) {
-    // Obtiene el elemento de navCats y recoge el siguiente hermano con el tag <a>
+    // Obtiene el elemento de navMenus y recoge los tag <a>
     const navMenus = document.getElementById("navMenus");
     const links = navMenus.nextSibling.querySelectorAll("a");
-    // Los recorre y recupera el nombre de la categoría con el atributo personalizado data-allergen
+    // Los recorre y añade el manejador para aquellos que tienen el atributo menú
     for (const link of links) {
       link.addEventListener("click", (event) => {
         handler(event.currentTarget.dataset.menu);
@@ -328,7 +324,7 @@ class RestaurantsManagerView {
           <a
             data-rest="${rest.restaurant.name}"
             class="dropdown-item"
-            href="#dish-list"
+            href="#restaurant"
           >
             ${rest.restaurant.name}
           </a>`
@@ -339,12 +335,12 @@ class RestaurantsManagerView {
     this.menu.append(div);
   }
 
-  // Manejador de unión que se da cuando se realiza click en la zona de navegación de menús
+  // Manejador de unión que se da cuando se realiza click en la zona de navegación de restaurantes
   bindRestaurantListInMenu(handler) {
-    // Obtiene el elemento de navRests y recoge el siguiente hermano con el tag <a>
+    // Obtiene el elemento de navRests y recoge los tag <a>
     const navRests = document.getElementById("navRests");
     const links = navRests.nextSibling.querySelectorAll("a");
-    // Los recorre y recupera el nombre de la categoría con el atributo personalizado data-allergen
+    // Los recorre y añade un manejador de eventos para aquellos con el atributo rest
     for (const link of links) {
       link.addEventListener("click", (event) => {
         handler(event.currentTarget.dataset.rest);
@@ -352,7 +348,59 @@ class RestaurantsManagerView {
     }
   }
 
-  // Función que permite listar los platos de una categoría
+  // Función que permite mostrar una tarjeta personalizada con la información de cada restaurante
+  showRestaurant(res) {
+    this.centralzone.replaceChildren();
+    // Crea el contenedor y le añade las clases
+    const container = document.createElement("div");
+    container.classList.add("container", "my-5");
+    // Si se obtiene el plato correctamente, se le otorga un id y se da formato en HTML
+    if (res) {
+      container.id = "restaurant";
+      container.insertAdjacentHTML(
+        "beforeend",
+        `<div class="row">
+          <div class="col-12">
+            <div class="card bg__grey border--green">
+              <div class="row align-items-center">
+                <div class="col-xl-12 text-center">
+                  <div class="p-4">
+                    <div class="mb-5">
+                      <h2 class="text-uppercase text--green fw-bold fst-italic">${res.name}</h2>
+                    </div>
+                    <div class="mb-5">
+                      <h5 class="text-uppercase text--green fw-bold">Ubicación ${res.name}</h5>
+                      <p class="text--green">${res.location}</p>
+                    </div>
+                    <div class="mb-1">
+                      <h6 class="text-uppercase text--green fw-bold">Descripción</h6>
+                      <p class="text--green">${res.description}</p>
+                    </div>
+                    <div class="cart mt-3 align-items-center">
+                      <button
+                        data-name="${res.name}"
+                        class="newfood__content__button text-uppercase mr-2 px-4"
+                      >
+                        Reservar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>`
+      );
+      // Le da una cabecera justo al principio
+      container.insertAdjacentHTML(
+        "afterbegin",
+        `<h1 class="text--green my-3">Ficha de restaurante</h1>`
+      );
+      this.centralzone.append(container);
+    }
+  }
+
+  // Función que permite listar los platos
   listDishes(dishes, title) {
     // Borra la zona central
     this.centralzone.replaceChildren();
@@ -380,7 +428,7 @@ class RestaurantsManagerView {
       // Insertamos el div creado
       container.children[0].append(div);
     }
-    // Le da una cabecera justo al principio indicando el nombre de la categoría
+    // Le da una cabecera justo al principio indicando el nombre de la categoría, alérgeno, menú...
     container.insertAdjacentHTML(
       "afterbegin",
       `<h1 class="text--green my-3">${title}</h1>`
@@ -388,37 +436,9 @@ class RestaurantsManagerView {
     this.centralzone.append(container);
   }
 
-  // Manejador que se da cuando se realiza click en la zona central de categorías
-  bindDishesCategoryList(handler) {
-    // Obtiene el elemento y aquellos que dentro se compongan con el tag <a>
-    const categoryList = document.getElementById("dish-list");
-    const links = categoryList.querySelectorAll("a");
-    // Los recorre y recupera el nombre de la categoría con el atributo personalizado dataset.category
-    for (const link of links) {
-      link.addEventListener("click", (event) => {
-        handler(event.currentTarget.dataset.category);
-      });
-    }
-  }
-
-  // Manejador que se da cuando se realiza click en la zona de navegación de categorías
-  bindDishesCategoryListInMenu(handler) {
-    // Obtiene el elemento de navCats y recoge el siguiente hermano con el tag <a>
-    const navCats = document.getElementById("navCats");
-    const links = navCats.nextSibling.querySelectorAll("a");
-    // Los recorre y recupera el nombre de la categoría con el atributo personalizado dataset.category
-    for (const link of links) {
-      link.addEventListener("click", (event) => {
-        handler(event.currentTarget.dataset.category);
-      });
-    }
-  }
-
   // Función que permite mostrar una tarjeta personalizada con la información de cada plato
   showDish(dish, message) {
     this.centralzone.replaceChildren();
-    if (this.centralzone.children.length > 1)
-      this.centralzone.children[1].remove();
 
     // Crea el contenedor y le añade las clases
     const container = document.createElement("div");

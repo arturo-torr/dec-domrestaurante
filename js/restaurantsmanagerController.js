@@ -234,22 +234,33 @@ class RestaurantsManagerController {
 
     // Creación de restaurantes
     let res1 = this[MODEL].createRestaurant(
-      "KBA Madrid",
+      "KAB Madrid",
       RestaurantsManager.Restaurant
     );
-    // Creación de restaurantes
+    res1.description =
+      "KAB situado en Madrid, donde todo aquel que va con prisa, se para aquí.";
+    res1.location = new Coordinate("40.437842", "-3.686273");
+
     let res2 = this[MODEL].createRestaurant(
-      "KBA Ciudad Real",
+      "KAB Ciudad Real",
       RestaurantsManager.Restaurant
     );
-    // Creación de restaurantes
+    res2.description =
+      "KAB situado en Ciudad Real. Un soplo de aire fresco en una ciudad agricultora.";
+    res2.location = new Coordinate("38.98626", "-3.92907");
+
     let res3 = this[MODEL].createRestaurant(
-      "KBA Parla",
+      "KAB Parla",
       RestaurantsManager.Restaurant
     );
+    res3.description =
+      "KAB situado en Parla. Nunca hay que olvidar los orígenes ni de donde venimos.";
+    res3.location = new Coordinate("40.23604", "-3.76752");
+
     this[MODEL].addRestaurant(res1, res2, res3);
   }
 
+  // Funciones que solo se ejecutan una sola vez
   onLoad = () => {
     this[LOAD_MANAGER_OBJECTS]();
     this.onAddCategory();
@@ -258,13 +269,43 @@ class RestaurantsManagerController {
     this.onAddRestaurant();
   };
 
+  // Funciones que se ejecutan al clickear inicio
   onInit = () => {
     this[VIEW].showCategories(this[MODEL].categories);
-    this[VIEW].showRandomDishes(this[MODEL].dishes);
+    this[VIEW].showRandomDishes(this[MODEL].getRandomDishes());
     this[VIEW].bindDishesCategoryList(this.handleDishesCategoryList);
     this[VIEW].bindDishesRandomList(this.handleDishesRandomList);
   };
 
+  handleInit = () => {
+    this.onInit();
+  };
+
+  // Mostrado de categorías en navegación y manejador
+  onAddCategory = () => {
+    this[VIEW].showCategoriesInMenu(this[MODEL].categories);
+    this[VIEW].bindDishesCategoryListInMenu(this.handleDishesCategoryList);
+  };
+
+  // Mostrado de alérgenos en navegación y manejador
+  onAddAllergen = () => {
+    this[VIEW].showAllergensInMenu(this[MODEL].allergens);
+    this[VIEW].bindDishesAllergenListInMenu(this.handleDishesAllergenList);
+  };
+
+  // Mostrado de menú en navegación y manejador
+  onAddMenu = () => {
+    this[VIEW].showMenusInNav(this[MODEL].menus);
+    this[VIEW].bindMenuListInNav(this.handleDishesMenuList);
+  };
+
+  // Mostrado de restaurantes en navegación y manejador
+  onAddRestaurant = () => {
+    this[VIEW].showRestaurantsInMenu(this[MODEL].restaurants);
+    this[VIEW].bindRestaurantListInMenu(this.handleRestaurantsMenuList);
+  };
+
+  // Manejador para el mostrado de platos
   handleShowDish = (name) => {
     try {
       const dish = this[MODEL].createDish(name, RestaurantsManager.Dish);
@@ -277,35 +318,13 @@ class RestaurantsManagerController {
     }
   };
 
-  handleInit = () => {
-    this.onInit();
-  };
-
-  onAddCategory = () => {
-    this[VIEW].showCategoriesInMenu(this[MODEL].categories);
-    this[VIEW].bindDishesCategoryListInMenu(this.handleDishesCategoryList);
-  };
-
-  onAddAllergen = () => {
-    this[VIEW].showAllergensInMenu(this[MODEL].allergens);
-    this[VIEW].bindDishesAllergenListInMenu(this.handleDishesAllergenList);
-  };
-
-  onAddMenu = () => {
-    this[VIEW].showMenusInNav(this[MODEL].menus);
-    this[VIEW].bindMenuListInNav(this.handleDishesMenuList);
-  };
-
-  onAddRestaurant = () => {
-    this[VIEW].showRestaurantsInMenu(this[MODEL].restaurants);
-    //this[VIEW].bindRestaurantListInMenu(this.handleRestaurantsMenuList);
-  };
-
+  // Manejador para mostrar fichas de los platos aleatorios
   handleDishesRandomList = (name) => {
     const dish = this[MODEL].createDish(name, RestaurantsManager.Dish);
-    this[VIEW].bindDishesRandomList(this.handleShowDish(dish.name));
+    this.handleShowDish(dish.name);
   };
 
+  // Manejador de los platos de una categoría en la barra de navegación o en la sección central
   handleDishesCategoryList = (name) => {
     const category = this[MODEL].createCategory(
       name,
@@ -318,6 +337,7 @@ class RestaurantsManagerController {
     this[VIEW].bindShowDish(this.handleShowDish);
   };
 
+  // Manejador para los alérgenos en la barra de navegación
   handleDishesAllergenList = (name) => {
     const allergen = this[MODEL].createAllergen(
       name,
@@ -330,19 +350,20 @@ class RestaurantsManagerController {
     this[VIEW].bindShowDish(this.handleShowDish);
   };
 
+  // Manejador para platos de un menú en barra de navegación
   handleDishesMenuList = (name) => {
     const menu = this[MODEL].createMenu(name, RestaurantsManager.Menu);
     this[VIEW].listDishes(this[MODEL].getDishesInMenu(menu), menu.name);
     this[VIEW].bindShowDish(this.handleShowDish);
   };
 
+  // Manejador para mostrar el restaurante desde la barra de navegación
   handleRestaurantsMenuList = (name) => {
     const rest = this[MODEL].createRestaurant(
       name,
       RestaurantsManager.Restaurant
     );
-    this[VIEW].listDishes(this[MODEL].getDishesInMenu(rest), rest.name);
-    this[VIEW].bindShowDish(this.handleShowDish);
+    this[VIEW].showRestaurant(rest);
   };
 }
 
