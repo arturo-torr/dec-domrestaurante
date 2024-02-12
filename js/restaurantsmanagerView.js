@@ -67,7 +67,7 @@ class RestaurantsManagerView {
         `<div class="col-sm-4 col-lg-4 col-md-4 col-xl-4 my-1">
           <a
             class="text--green"
-            data-dish="${dish.dish.name}"
+            data-name="${dish.dish.name}"
             href="#single-dish">
             <div>
               <img
@@ -87,22 +87,23 @@ class RestaurantsManagerView {
     this.initzone.append(container);
   }
 
+  // Manejador que se da cuando se realiza click en la zona con los platos aleatorios
   bindDishesRandomList(handler) {
     // Obtiene el elemento y aquellos que dentro se compongan con el tag <a>
-    const categoryList = document.getElementById("random-list");
-    const links = categoryList.querySelectorAll("a");
-    // Los recorre y recupera el nombre de la categoría con el atributo personalizado dataset.category
+    const randomList = document.getElementById("random-list");
+    const links = randomList.querySelectorAll("a");
+    // Los recorre y recupera el nombre del plato con el atributo personalizado dataset.name
     for (const link of links) {
       link.addEventListener("click", (event) => {
-        handler(event.currentTarget.dataset.dish);
+        handler(event.currentTarget.dataset.name);
       });
     }
   }
 
   // Permite unir con el controlador el plato, añadiendo un manejador de eventos para cada plato
   bindShowDish(handler) {
-    const categoryList = document.getElementById("dish-list");
-    const links = categoryList.querySelectorAll("a.text--green");
+    const dishList = document.getElementById("dish-list");
+    const links = dishList.querySelectorAll("a.text--green");
     for (const link of links) {
       link.addEventListener("click", (event) => {
         handler(event.currentTarget.dataset.name);
