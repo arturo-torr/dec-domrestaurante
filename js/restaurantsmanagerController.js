@@ -260,7 +260,7 @@ class RestaurantsManagerController {
     this[MODEL].addRestaurant(res1, res2, res3);
   }
 
-  // Cosas que solo se ejecutan una sola vez
+  // Funciones que solo se ejecutan una sola vez
   onLoad = () => {
     this[LOAD_MANAGER_OBJECTS]();
     this.onAddCategory();
@@ -269,35 +269,40 @@ class RestaurantsManagerController {
     this.onAddRestaurant();
   };
 
-  handleInit = () => {
-    this.onInit();
-  };
-
-  onAddCategory = () => {
-    this[VIEW].showCategoriesInMenu(this[MODEL].categories);
-    this[VIEW].bindDishesCategoryListInMenu(this.handleDishesCategoryList);
-  };
-
-  onAddAllergen = () => {
-    this[VIEW].showAllergensInMenu(this[MODEL].allergens);
-    this[VIEW].bindDishesAllergenListInMenu(this.handleDishesAllergenList);
-  };
-
-  onAddMenu = () => {
-    this[VIEW].showMenusInNav(this[MODEL].menus);
-    this[VIEW].bindMenuListInNav(this.handleDishesMenuList);
-  };
-
-  onAddRestaurant = () => {
-    this[VIEW].showRestaurantsInMenu(this[MODEL].restaurants);
-    this[VIEW].bindRestaurantListInMenu(this.handleRestaurantsMenuList);
-  };
-
+  // Funciones que se ejecutan al clickear inicio
   onInit = () => {
     this[VIEW].showCategories(this[MODEL].categories);
     this[VIEW].showRandomDishes(this[MODEL].getRandomDishes());
     this[VIEW].bindDishesCategoryList(this.handleDishesCategoryList);
     this[VIEW].bindDishesRandomList(this.handleDishesRandomList);
+  };
+
+  handleInit = () => {
+    this.onInit();
+  };
+
+  // Mostrado de categorías en navegación y manejador
+  onAddCategory = () => {
+    this[VIEW].showCategoriesInMenu(this[MODEL].categories);
+    this[VIEW].bindDishesCategoryListInMenu(this.handleDishesCategoryList);
+  };
+
+  // Mostrado de alérgenos en navegación y manejador
+  onAddAllergen = () => {
+    this[VIEW].showAllergensInMenu(this[MODEL].allergens);
+    this[VIEW].bindDishesAllergenListInMenu(this.handleDishesAllergenList);
+  };
+
+  // Mostrado de menú en navegación y manejador
+  onAddMenu = () => {
+    this[VIEW].showMenusInNav(this[MODEL].menus);
+    this[VIEW].bindMenuListInNav(this.handleDishesMenuList);
+  };
+
+  // Mostrado de restaurantes en navegación y manejador
+  onAddRestaurant = () => {
+    this[VIEW].showRestaurantsInMenu(this[MODEL].restaurants);
+    this[VIEW].bindRestaurantListInMenu(this.handleRestaurantsMenuList);
   };
 
   // Manejador para el mostrado de platos

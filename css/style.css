@@ -20,7 +20,7 @@ header {
 
 .navbar {
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     align-items: center;
     background-color: #121318;
     font-weight: 600;
@@ -426,7 +426,7 @@ input:valid:not(.submit), select:required:valid {
     margin-left: 3vw;
 }
 
-/**  JS **/
+/**  --- PRÁCTICA JS 5.2 --- **/
 
 .text--green {
     text-decoration: none;
