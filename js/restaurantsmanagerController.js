@@ -237,16 +237,26 @@ class RestaurantsManagerController {
       "KAB Madrid",
       RestaurantsManager.Restaurant
     );
-    // Creación de restaurantes
+    res1.description =
+      "KAB situado en Madrid, donde todo aquel que va con prisa, se para aquí.";
+    res1.location = new Coordinate("40.437842", "-3.686273");
+
     let res2 = this[MODEL].createRestaurant(
       "KAB Ciudad Real",
       RestaurantsManager.Restaurant
     );
-    // Creación de restaurantes
+    res2.description =
+      "KAB situado en Ciudad Real. Un soplo de aire fresco en una ciudad agricultora.";
+    res2.location = new Coordinate("38.98626", "-3.92907");
+
     let res3 = this[MODEL].createRestaurant(
       "KAB Parla",
       RestaurantsManager.Restaurant
     );
+    res3.description =
+      "KAB situado en Parla. Nunca hay que olvidar los orígenes ni de donde venimos.";
+    res3.location = new Coordinate("40.23604", "-3.76752");
+
     this[MODEL].addRestaurant(res1, res2, res3);
   }
 
@@ -280,12 +290,12 @@ class RestaurantsManagerController {
 
   onAddRestaurant = () => {
     this[VIEW].showRestaurantsInMenu(this[MODEL].restaurants);
-    //this[VIEW].bindRestaurantListInMenu(this.handleRestaurantsMenuList);
+    this[VIEW].bindRestaurantListInMenu(this.handleRestaurantsMenuList);
   };
 
   onInit = () => {
     this[VIEW].showCategories(this[MODEL].categories);
-    this[VIEW].showRandomDishes(this[MODEL].dishes);
+    this[VIEW].showRandomDishes(this[MODEL].getRandomDishes());
     this[VIEW].bindDishesCategoryList(this.handleDishesCategoryList);
     this[VIEW].bindDishesRandomList(this.handleDishesRandomList);
   };
@@ -342,14 +352,13 @@ class RestaurantsManagerController {
     this[VIEW].bindShowDish(this.handleShowDish);
   };
 
-  // Manejador para restaurantes en barra de navegación
+  // Manejador para mostrar el restaurante desde la barra de navegación
   handleRestaurantsMenuList = (name) => {
     const rest = this[MODEL].createRestaurant(
       name,
       RestaurantsManager.Restaurant
     );
-    this[VIEW].listDishes(this[MODEL].getDishesInMenu(rest), rest.name);
-    this[VIEW].bindShowDish(this.handleShowDish);
+    this[VIEW].showRestaurant(rest);
   };
 }
 
