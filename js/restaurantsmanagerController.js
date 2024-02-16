@@ -332,7 +332,8 @@ class RestaurantsManagerController {
     );
     this[VIEW].listDishes(
       this[MODEL].getDishesInCategory(category),
-      category.name
+      category.name,
+      "Categorías"
     );
     this[VIEW].bindShowDish(this.handleShowDish);
   };
@@ -345,7 +346,8 @@ class RestaurantsManagerController {
     );
     this[VIEW].listDishes(
       this[MODEL].getDishesWithAllergen(allergen),
-      allergen.name
+      allergen.name,
+      "Alérgenos"
     );
     this[VIEW].bindShowDish(this.handleShowDish);
   };
@@ -353,7 +355,11 @@ class RestaurantsManagerController {
   // Manejador para platos de un menú en barra de navegación
   handleDishesMenuList = (name) => {
     const menu = this[MODEL].createMenu(name, RestaurantsManager.Menu);
-    this[VIEW].listDishes(this[MODEL].getDishesInMenu(menu), menu.name);
+    this[VIEW].listDishes(
+      this[MODEL].getDishesInMenu(menu),
+      menu.name,
+      "Menús"
+    );
     this[VIEW].bindShowDish(this.handleShowDish);
   };
 
@@ -363,7 +369,7 @@ class RestaurantsManagerController {
       name,
       RestaurantsManager.Restaurant
     );
-    this[VIEW].showRestaurant(rest);
+    this[VIEW].showRestaurant(rest, "Restaurantes");
   };
 }
 
